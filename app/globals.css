@@ -1,26 +1,252 @@
 @import "tailwindcss";
 
+/* =========================================================
+   ELEGANCE OCCASION — BRAND TOKENS (Ivory + Gold)
+   Professional, elegant, UK-luxury feel
+========================================================= */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Page + surfaces */
+  --page-bg: #fbfaf7;                 /* warm ivory */
+  --surface-1: rgba(255, 255, 255, 0.72);
+  --surface-2: rgba(255, 255, 255, 0.92);
+  --border: rgba(15, 23, 42, 0.10);   /* slate-900 @ 10% */
+
+  /* Text */
+  --foreground: #0f172a;              /* slate-900 */
+  --muted: rgba(15, 23, 42, 0.72);
+  --muted-2: rgba(15, 23, 42, 0.55);
+
+  /* Gold brand */
+  --gold-1: #c8a94a;                  /* refined gold */
+  --gold-2: #f2df9a;                  /* soft highlight */
+  --gold-3: rgba(200, 169, 74, 0.18); /* gold wash */
+
+  /* Accent glow (very subtle on light bg) */
+  --glow: rgba(200, 169, 74, 0.22);
+
+  /* Fonts */
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* =========================================================
+   GLOBAL BASE
+========================================================= */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  margin: 0;
+  padding: 0;
+  background: var(--page-bg);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Better rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Editorial headings */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+  text-rendering: geometricPrecision;
+}
+
+/* =========================================================
+   PREMIUM MOTION (subtle, expensive)
+========================================================= */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 300% 300%;
+  animation: gradientMove 18s ease infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 6.5s ease-in-out infinite;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-floaty {
+  animation: floaty 7s ease-in-out infinite;
+}
+
+/* =========================================================
+   LUXURY UTILS (safe @apply only — no sm:* variants)
+========================================================= */
+
+/* Premium card surface (light, crisp) */
+.card-lux {
+  @apply rounded-2xl border;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.92),
+    rgba(255,255,255,0.70)
+  );
+  border-color: var(--border);
+  box-shadow:
+    0 24px 70px rgba(15, 23, 42, 0.08),
+    0 2px 10px rgba(15, 23, 42, 0.05);
+}
+
+/* Glass panel (subtle on light bg) */
+.glass-lux {
+  @apply rounded-2xl border;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.75),
+    rgba(255,255,255,0.55)
+  );
+  border-color: rgba(15, 23, 42, 0.10);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.06);
+}
+
+/* Gold gradient CTA — primary only */
+.btn-gold {
+  @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition;
+  background: linear-gradient(135deg, var(--gold-1), var(--gold-2));
+  color: #111827; /* slate-900-ish */
+  box-shadow: 0 18px 55px rgba(200,169,74,0.22);
+}
+
+.btn-gold:hover {
+  filter: brightness(1.03);
+}
+
+/* Secondary action — ghost/light (your rule) */
+.btn-ghost {
+  @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition;
+  background: rgba(255,255,255,0.70);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  color: rgba(15, 23, 42, 0.90);
+  box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+}
+
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.92);
+}
+
+/* Premium focus ring (keyboard accessibility polish) */
+.btn-gold:focus-visible,
+.btn-ghost:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(200, 169, 74, 0.22);
+}
+
+/* Badge / status pill */
+.pill {
+  @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-medium;
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  color: rgba(15, 23, 42, 0.80);
+}
+
+/* Inputs (light luxury) — keep name input-dark to avoid changing TSX */
+.input-dark {
+  @apply w-full rounded-xl border px-4 py-3 text-sm outline-none transition;
+  background: rgba(255,255,255,0.90);
+  border-color: rgba(15, 23, 42, 0.12);
+  color: rgba(15, 23, 42, 0.95);
+  box-shadow: 0 10px 26px rgba(15,23,42,0.05);
+}
+
+.input-dark::placeholder {
+  color: rgba(15, 23, 42, 0.45);
+}
+
+.input-dark:focus {
+  box-shadow: 0 0 0 3px rgba(200,169,74,0.22);
+  border-color: rgba(200,169,74,0.55);
+}
+
+/* =========================================================
+   SHIMMER (Gallery placeholders) — tuned for light bg
+========================================================= */
+@keyframes shimmer {
+  0% { transform: translateX(-35%) rotate(12deg); }
+  100% { transform: translateX(35%) rotate(12deg); }
+}
+
+.shimmer {
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.65),
+    transparent
+  );
+  animation: shimmer 2.2s infinite;
+}
+
+/* =========================================================
+   SCROLLBAR (clean)
+========================================================= */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #fbfaf7; }
+::-webkit-scrollbar-thumb {
+  background: rgba(15,23,42,0.18);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(15,23,42,0.28);
+}
+
+/* =========================================================
+   Trusted-by marquee (Server Component safe)
+   - smoother, premium pacing knob via --marquee-duration
+   - reduced-motion safe
+   - better perf via will-change + translate3d
+========================================================= */
+.marquee {
+  --marquee-duration: 30s;
+  width: 100%;
+  overflow: hidden;
+}
+
+.marquee__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  animation: marqueeScroll var(--marquee-duration) linear infinite;
+  white-space: nowrap;
+  min-height: 40px;
+
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none !important;
+    transform: none !important;
+  }
 }
