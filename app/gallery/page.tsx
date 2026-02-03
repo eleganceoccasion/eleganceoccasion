@@ -117,13 +117,7 @@ const galleryItems: GalleryItem[] = [
     category: "Food & Drinks",
     type: "image",
   },
-  {
-    src: "/gallery/meatselection.png",
-    title: "Meat selection",
-    subtitle: "High-quality cuts styled for service and photography.",
-    category: "Food & Drinks",
-    type: "image",
-  },
+
   {
     src: "/gallery/coffeecart.png",
     title: "Coffee cart",
@@ -259,9 +253,17 @@ const galleryItems: GalleryItem[] = [
     type: "video",
   },
   {
+    src: "/gallery/cinderella.mp4",
+    title: "Cinderella Lighting",
+    subtitle: "Soft, cinematic lighting transformation.",
+    category: "Décor",
+    type: "video",
+  },
+
+  {
     src: "/gallery/stage3.mp4",
     title: "Evening stage ambience",
-    subtitle: "Soft, cinematic lighting transformation.",
+    subtitle: "Seamless stage set-ups.",
     category: "Décor",
     type: "video",
   },
