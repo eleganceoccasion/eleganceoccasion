@@ -631,6 +631,35 @@ export const services: Service[] = [
   },
 
   {
+  slug: "cinderella-lighting",
+  title: "Cinderella Lighting",
+  tagline:
+    "A fairytale lighting transformation — soft, romantic, and designed to make the room feel magical.",
+  category: "Décor & Styling",
+  alsoIn: ["Corporate & Enterprise"],
+  audiences: ["Weddings", "Mehndi/Nikkah", "Private", "VIP", "Awards"],
+  tags: ["Fairytale", "Romantic lighting", "Transformational"],
+  highlights: [
+    "Soft ambient lighting that transforms the entire room",
+    "Designed to enhance florals, stages and tablescapes",
+    "Warm, flattering light for photography and film",
+    "Installed and programmed by our in-house team",
+  ],
+  idealFor: [
+    "Luxury weddings and receptions",
+    "Mehndi / Nikkah evenings",
+    "Romantic venues and marquees",
+    "VIP and high-end private events",
+  ],
+  addOns: [
+    "Floral & stage backdrops",
+    "Candle & centre-piece styling",
+    "Dance floor & staging",
+    "Full event design",
+  ],
+},
+
+  {
     slug: "kids-corner-soft-play",
     title: "Kids Corner & Soft Play Styling",
     tagline:

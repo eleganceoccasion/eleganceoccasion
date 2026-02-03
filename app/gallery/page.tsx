@@ -244,6 +244,51 @@ const galleryItems: GalleryItem[] = [
     type: "video",
   },
 
+    {
+    src: "/gallery/stage1.mp4",
+    title: "Stage lighting build",
+    subtitle: "Atmospheric lighting and staging in action.",
+    category: "Décor",
+    type: "video",
+  },
+  {
+    src: "/gallery/stage2.mp4",
+    title: "Stage & backdrop reveal",
+    subtitle: "Layered lighting designed for impact and photography.",
+    category: "Décor",
+    type: "video",
+  },
+  {
+    src: "/gallery/stage3.mp4",
+    title: "Evening stage ambience",
+    subtitle: "Soft, cinematic lighting transformation.",
+    category: "Décor",
+    type: "video",
+  },
+
+{
+  src: "/gallery/stage5.mp4",
+  title: "Dessert table presentation",
+  subtitle: "Styled dessert table with layered layout and guest flow.",
+  category: "Food & Drinks",
+  type: "video",
+},
+
+  {
+    src: "/gallery/willows.mp4",
+    title: "Wedding setup",
+    subtitle: "Romantic lighting and décor at a luxury venue.",
+    category: "Weddings",
+    type: "video",
+  },
+  {
+    src: "/gallery/package.mp4",
+    title: "Signature event package",
+    subtitle: "A complete experience — styling, stations and service.",
+    category: "Experiences",
+    type: "video",
+  },
+
   /* =======================================================
      DÉCOR, WEDDING & CORPORATE ENVIRONMENTS
   ======================================================== */

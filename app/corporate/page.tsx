@@ -113,7 +113,6 @@ export default function CorporatePage() {
                   <PillTag>Brief-led</PillTag>
                   <PillTag>Approval-ready</PillTag>
                   <PillTag>On-site managed</PillTag>
-                  <PillTag>White-label option</PillTag>
                 </div>
               </div>
             </div>
