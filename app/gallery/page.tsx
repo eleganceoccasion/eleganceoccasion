@@ -133,6 +133,7 @@ const galleryItems: GalleryItem[] = [
     type: "image",
   },
 
+
   /* =======================================================
      SLUSH & COLD DRINKS – DETAIL + BRANDING
   ======================================================== */
@@ -193,13 +194,13 @@ const galleryItems: GalleryItem[] = [
   {
     src: "/gallery/photostrip.png",
     title: "Photo strip output",
-    subtitle: "Printed keepsakes tailored to your event branding.",
+    subtitle: "Printed keepsakes tailored to your event experience.",
     category: "Experiences",
     type: "image",
   },
   {
     src: "/gallery/360boothconcept.png",
-    title: "360 booth concept visual",
+    title: "360 Photo Booth",
     subtitle: "Concept layout for brand-first content moments.",
     category: "Experiences",
     type: "image",

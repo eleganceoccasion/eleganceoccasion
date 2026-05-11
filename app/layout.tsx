@@ -52,7 +52,7 @@ export default function RootLayout({
             </div>
 
             <div className="hidden sm:flex items-center gap-6 text-slate-600">
-              <span>Fast WhatsApp responses</span>
+              <span>Tailored Proposals</span>
               <a
                 href="tel:+447932802236"
                 className="text-slate-900 font-semibold"

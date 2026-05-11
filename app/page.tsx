@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,61 +8,163 @@ import Link from "next/link";
    CONFIG
 ========================================================= */
 const WHATSAPP_NUMBER = "447932802236";
-const BUSINESS_EMAIL = "enquiries@eleganceoccasion.co.uk"; // change if needed
 
-function encodeLines(lines: string[]) {
-  return encodeURIComponent(lines.filter(Boolean).join("\n"));
-}
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hi Elegance Occasion 👋\n\nI'd like a quote / availability.\n\nEvent type: -\nDate: -\nCity/Venue: -\nGuests: -\nServices interested in: -\n\nThank you!"
+)}`;
 
 /* =========================================================
-   GALLERY ITEMS
+   EXPERIENCE STATIONS
 ========================================================= */
-// Make sure these files live in /public/gallery
-const galleryItems = [
+const experiences = [
   {
-    src: "/gallery/hero-1.jpg",
-    title: "Wedding set-up",
-    tag: "Wedding",
+    id: "chocolate-fountain",
+    title: "Chocolate Fountain",
+    desc: "Luxury flowing fountain with fruit, marshmallows and premium dipping selections.",
+    img: "/gallery/fountain.png",
+    tag: "Dessert",
+    price: "From £250",
+    popular: true,
   },
+  {
+    id: "vintage-photo-booth",
+    title: "Vintage Photo Booth",
+    desc: "Elegant open-air photo booth with instant prints, props and digital sharing.",
+    img: "/gallery/photobooth.png",
+    tag: "Experience",
+    price: "From £350",
+    popular: true,
+  },
+  {
+    id: "mini-dutch-pancakes",
+    title: "Mini Dutch Pancakes",
+    desc: "Fresh live poffertjes with luxury toppings and interactive serving.",
+    img: "/gallery/pancakes.png",
+    tag: "Food",
+    price: "From £200",
+    popular: true,
+  },
+  {
+    id: "candy-floss",
+    title: "Candy Floss",
+    desc: "Fresh spun candy floss in custom colours and flavours.",
+    img: "/gallery/candyflosscart.png",
+    tag: "Sweet",
+    price: "From £195",
+    popular: false,
+  },
+  {
+    id: "soft-serve",
+    title: "Soft-Serve Ice Cream",
+    desc: "Premium soft-serve station with toppings, cones and custom styling.",
+    img: "/gallery/icecream2.jpg",
+    tag: "Dessert",
+    price: "From £350",
+    popular: false,
+  },
+  {
+    id: "360-booth",
+    title: "360 Photo Booth",
+    desc: "Luxury 360 video booth perfect for weddings, socials and brand activations.",
+    img: "/gallery/360boothconcept.png",
+    tag: "Experience",
+    price: "From £150",
+    popular: true,
+  },
+    {
+    id: "pani-puri",
+    title: "Pani Puri Station",
+    desc: "Authentic gol gappe experience prepared and served live.",
+    img: "/gallery/Gol Gappe.png",
+    tag: "Cultural",
+    price: "From £149",
+    popular: true,
+  },
+  {
+    id: "Luxury Fruit-Display",
+    title: "Luxury Fruit-Display",
+    desc: "Fruit Display with exotic fruits and stunning diplays",
+    img: "/gallery/fuitdisplay2.png",
+    tag: "Drinks",
+    price: "From £249",
+    popular: true,
+  },
+
+  {
+    id: "sweet-carts",
+    title: "Sweet Carts",
+    desc: "Styled sweet displays curated to your event palette and theme.",
+    img: "/gallery/sweets.jpg",
+    tag: "Sweet",
+    price: "From £149",
+    popular: false,
+  },
+  {
+    id: "Welcome Drinks",
+    title: "Welcome Drinks",
+    desc: "Luxury welcome drinks and handcrafted mocktails served live.",
+    img: "/gallery/welcomedrinks.png",
+    tag: "Drinks",
+    price: "From £195",
+    popular: false,
+  },
+  {
+    id: "slush-station",
+    title: "Slush Station",
+    desc: "Refreshing slush station with vibrant flavours and live serving.",
+    img: "/gallery/slushcup.png",
+    tag: "Drinks",
+    price: "From £149",
+    popular: true,
+  },
+
+];
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+const categories = [
+  {
+    title: "Enterprise",
+    desc: "Brand activations, launches & corporate hospitality",
+    img: "/gallery/corporateevent.jpg",
+    href: "/corporate",
+  },
+  {
+    title: "Weddings",
+    desc: "Luxury wedding styling & full experiences",
+    img: "/gallery/hero-1.jpg",
+    href: "/weddings",
+  },
+  {
+    title: "Décor & Design",
+    desc: "Floral styling, staging & installations",
+    img: "/gallery/decorbuild.png",
+    href: "/services",
+  },
+  {
+    title: "Private Events",
+    desc: "Birthdays, mehndi nights & celebrations",
+    img: "/gallery/mehndidecor.jpg",
+    href: "/services",
+  },
+];
+
+/* =========================================================
+   GALLERY PREVIEW
+========================================================= */
+const gallery = [
   {
     src: "/gallery/hero-2.jpg",
-    title: "Corporate hospitality setup",
-    tag: "Corporate",
+    label: "Corporate Experiences",
   },
   {
-    src: "/gallery/mehndidecor.jpg",
-    title: "Mehndi Décor",
-    tag: "Photo & content",
-  },
-  {
-    src: "/gallery/corporateevent.jpg",
-    title: "Anniversary",
-    tag: "Private Event",
-  },
-  {
-    src: "/gallery/corporateevent2.jpg",
-    title: "Welcome Area",
-    tag: "Corporate",
-  },
-  {
-    src: "/gallery/decorbuild.png",
-    title: "Décor build & styling",
-    tag: "Décor",
-  },
-  {
-    src: "/gallery/fountain.png",
-    title: "Luxury chocolate fountain",
-    tag: "Dessert",
-  },
-  {
-    src: "/gallery/foodbowl.png",
-    title: "Canapés & food bowls",
-    tag: "Catering",
+    src: "/gallery/cermony.jpg",
+    label: "Ceremony Experiences",
   },
   {
     src: "/gallery/photobooth.png",
-    title: "360 / vintage photobooth",
-    tag: "Experiences",
+    label: "Interactive Stations",
   },
 ];
 
@@ -70,898 +172,700 @@ const galleryItems = [
    PAGE
 ========================================================= */
 export default function HomePage() {
+  const today = new Date();
+
+  const [selectedExperiences, setSelectedExperiences] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [guests, setGuests] = useState(120);
+  const [eventType, setEventType] = useState("");
+  const [city, setCity] = useState("");
+
+  function toggleExperience(id: string) {
+    setSelectedExperiences((prev) =>
+      prev.includes(id)
+        ? prev.filter((x) => x !== id)
+        : [...prev, id]
+    );
+  }
+
+  const selectedNames = selectedExperiences
+    .map((id) => experiences.find((e) => e.id === id)?.title)
+    .filter(Boolean)
+    .join(", ");
+
+  const enquiryMessage = useMemo(() => {
+    const lines = [
+      "Hi Elegance Occasion 👋",
+      "",
+      "I'd like an event quote.",
+      "",
+      `Date: ${selectedDate || "-"}`,
+      `Event type: ${eventType || "-"}`,
+      `City/Venue: ${city || "-"}`,
+      `Guests: ~${guests}`,
+      `Experiences: ${selectedNames || "-"}`,
+      "",
+      "Please let me know availability and pricing.",
+      "",
+      "Thank you!",
+    ];
+
+    return encodeURIComponent(lines.join("\n"));
+  }, [selectedDate, eventType, city, guests, selectedNames]);
+
+  const enquiryUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${enquiryMessage}`;
+
   return (
-    <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)]">
-      <StickyMiniNav />
+    <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] overflow-x-hidden">
 
-      {/* ===================================================== */}
-      {/* HERO                                                   */}
-      {/* ===================================================== */}
-      <section className="relative overflow-hidden border-b border-black/5">
-        {/* Premium animated overlay (light theme) */}
-        <div
-          className="
-            absolute inset-0 pointer-events-none
-            bg-gradient-to-br from-[rgba(200,169,74,0.18)] via-white/40 to-[rgba(242,223,154,0.22)]
-            animate-gradient
-          "
-        />
+      {/* =====================================================
+         HERO
+      ===================================================== */}
+      <section className="relative min-h-[92vh] flex items-end overflow-hidden">
 
-        {/* Parallax texture */}
-        <ParallaxBG />
+        {/* Background */}
+        <div className="absolute inset-0">
+          <Image
+            src="/gallery/rings.jpg"
+            alt="Elegance Occasion"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
 
-        {/* Soft glow orb */}
-        <div className="pointer-events-none absolute -top-36 left-1/2 h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-[var(--glow)] blur-[160px] animate-pulse-slow" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/15" />
 
-        <div className="relative z-10 mx-auto grid max-w-7xl items-start gap-10 px-4 pt-12 pb-14 sm:px-6 lg:grid-cols-2 lg:px-8 lg:pt-16 lg:pb-20">
-          {/* LEFT */}
-          <div>
-            {/* Single eyebrow (remove duplicate branding row) */}
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-700">
-              UK-wide luxury event design • Corporate • Weddings • Private
-            </p>
-
-            {/* Status pill */}
-            <div className="pill mt-4 mb-4 shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-[var(--gold-1)] animate-pulse" />
-              <span>Now taking 2026 bookings — corporate, weddings & private.</span>
-            </div>
-
-            {/* HERO HEADLINE (improved gold visibility) */}
-            <h1 className="text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl lg:text-[3.35rem]">
-              Premium event experiences for <GoldHighlight>brands</GoldHighlight>,{" "}
-              <GoldHighlight>teams</GoldHighlight> &{" "}
-              <GoldHighlight>private hosts</GoldHighlight>.
-            </h1>
-
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-slate-700 sm:text-base">
-              We design and deliver corporate hospitality, catering, décor and signature
-              stations — planned to brief, aligned to brand/theme, and executed with calm,
-              professional on-site management.
-            </p>
-
-            {/* CTA */}
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#enquiry" className="btn-gold">
-                Send an enquiry
-              </a>
-              <Link href="/services" className="btn-ghost">
-                Explore services
-              </Link>
-            </div>
-
-            {/* Stats */}
-            <dl className="mt-10 grid grid-cols-2 gap-4 text-xs sm:grid-cols-4 sm:text-sm">
-              <Stat label="Delivery" value="White-glove" />
-              <Stat label="Audience" value="Corporate+" />
-              <Stat label="Coverage" value="UK-wide" />
-              <Stat label="Build" value="Bespoke" />
-            </dl>
-
-            <p className="mt-5 text-xs text-slate-600">
-              One supplier • Styled to brand/theme • Fully staffed setup & service
-            </p>
-
-            {/* Hero tiles (3 small images) */}
-            <div className="mt-8 grid grid-cols-3 gap-3">
-              <HeroTile src="/gallery/tree.jpg" alt="Elegance Occasion hero tile 1" />
-              <HeroTile src="/gallery/flower.jpg" alt="Elegance Occasion hero tile 2" />
-              <HeroTile src="/gallery/cermony.jpg" alt="Elegance Occasion hero tile 3" />
-            </div>
-          </div>
-
-          {/* RIGHT */}
-          <div className="space-y-5">
-            {/* Enquiry card (compact, executive) */}
-            <div id="enquiry" className="glass-lux p-5 sm:p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h2 className="text-lg font-semibold text-slate-900 sm:text-xl">
-                    Corporate & event enquiry
-                  </h2>
-                  <p className="mt-1 text-xs text-slate-600 sm:text-sm">
-                    Share your brief — we’ll reply with availability and a tailored proposal.
-                  </p>
-                </div>
-                <span className="pill">WhatsApp / Email</span>
-              </div>
-
-              <div className="mt-3 rounded-2xl border border-black/5 bg-white/60 px-4 py-3 text-[12px] text-slate-700">
-                Supplier-grade delivery: structured timelines, clear scope, single point of
-                contact.
-              </div>
-
-              <EnquiryBriefForm />
-            </div>
-
-            {/* Trust mini-block */}
-            <div className="card-lux p-5">
-              <div className="text-sm font-semibold text-slate-900">
-                Built for enterprise expectations
-              </div>
-              <div className="mt-3 grid gap-3">
-                <FeatureRow
-                  title="Professional delivery"
-                  desc="On-time setup, tidy service, and clean pack-down."
-                />
-                <FeatureRow
-                  title="Brand-first styling"
-                  desc="Colour palettes, signage and details aligned to your brand."
-                />
-                <FeatureRow
-                  title="One supplier"
-                  desc="Décor + catering + experiences — simplified coordination."
-                />
-              </div>
-            </div>
-          </div>
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[rgba(180,140,40,0.2)] to-transparent" />
         </div>
-      </section>
 
-      {/* ===================================================== */}
-      {/* TRUST STRIP (ultra-premium)                            */}
-      {/* ===================================================== */}
-      <section className="relative border-y border-black/5 bg-white/55">
-        {/* premium wash + soft vignette */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[rgba(200,169,74,0.12)] via-white/45 to-[rgba(15,23,42,0.05)]" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.55]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 15% 30%, rgba(200,169,74,0.14), transparent 55%), radial-gradient(circle at 85% 65%, rgba(15,23,42,0.06), transparent 55%)",
-          }}
-        />
+        {/* Content */}
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-40 sm:px-8 sm:pb-28">
 
-        <div className="relative mx-auto max-w-7xl px-4 py-9 sm:px-6 lg:px-8">
-          {/* one cohesive premium “band” */}
-          <div className="relative overflow-hidden rounded-[28px] border border-black/5 bg-white/65 shadow-[0_18px_50px_rgba(15,23,42,0.08)] backdrop-blur">
-            {/* inner highlight */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-white/40" />
-            {/* subtle top hairline */}
-            <div className="pointer-events-none absolute left-10 right-10 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(200,169,74,0.28)] to-transparent" />
+          <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.3em] text-[rgba(242,210,100,0.85)]">
+            UK-Wide • Weddings • Corporate • Luxury Events
+          </p>
 
-            <div className="relative grid gap-6 p-6 sm:p-7 lg:grid-cols-[1.05fr_1.55fr] lg:items-center">
-              {/* Left: statement */}
-              <div className="rounded-3xl border border-black/5 bg-white/60 p-5 shadow-sm">
-                <div className="flex items-center gap-3">
-                  {/* stars */}
-                  <div className="text-[12px] tracking-[0.14em] text-[color:var(--gold-1)]">
-                    ★★★★★
-                  </div>
-                  <span className="h-1 w-1 rounded-full bg-black/10" />
-                  <div className="text-[12px] font-semibold text-slate-700">
-                    Corporate-ready delivery
-                  </div>
-                </div>
+          <h1 className="max-w-4xl text-5xl font-bold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
+            Luxury Experiences
+            <br />
+            Designed Around
+            <br />
+            <span className="text-[rgba(242,210,100,1)]">
+              Your Occasion.
+            </span>
+          </h1>
 
-                <div className="mt-2 text-base font-semibold text-slate-900 sm:text-lg">
-                  Designed with taste. Delivered with precision.
-                </div>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/72">
+            Premium event styling, catering, entertainment and interactive
+            stations — all managed seamlessly by one team.
+          </p>
 
-                <div className="mt-2 text-sm leading-relaxed text-slate-700">
-                  Clear scope, structured timelines, and calm on-site management — end to
-                  end.
-                </div>
-              </div>
-
-              {/* Right: proof points */}
-              <div className="grid gap-3 sm:grid-cols-2">
-                <TrustChip title="Response" value="Within 1 business day" />
-                <TrustChip title="Delivery" value="Run-sheet + staffed team" />
-                <TrustChip title="Branding" value="Menus, signage, napkins, cups" />
-                <TrustChip title="Coverage" value="UK-wide (premium bookings)" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================== */}
-      {/* SERVICES                                               */}
-      {/* ===================================================== */}
-      <section id="services" className="py-14 sm:py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-semibold text-slate-900 sm:text-3xl">
-              Experiences, catering & styling — one team
-            </h2>
-            <p className="mt-2 text-sm text-slate-700 sm:text-base">
-              From drinks and dessert stations to full décor builds and catering, we design
-              cohesive event experiences that photograph beautifully and run smoothly.
-            </p>
-          </div>
-
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <ServiceCard
-              title="Corporate experiences"
-              desc="Brand activations, office events, launches and annual celebrations with premium presentation."
-              tag="Enterprise"
-            />
-            <ServiceCard
-              title="Décor & styling"
-              desc="Backdrops, tablescapes, florals, staging and detail styling aligned to your theme or brand."
-              tag="Design"
-            />
-            <ServiceCard
-              title="Catering"
-              desc="Canapés, grazing and tailored menus delivered professionally for teams and guests."
-              tag="Food"
-            />
-            <ServiceCard
-              title="Signature stations"
-              desc="Staffed stations designed for guest flow: mocktails, mobile bar, dessert experiences and cultural stations."
-              tag="Stations"
-            />
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/services" className="btn-gold">
-              View all services
-            </Link>
-            <a href="#gallery" className="btn-ghost">
-              See gallery
+          <div className="mt-9 flex flex-wrap gap-4">
+            <a
+              href="#build"
+              className="btn-gold px-7 py-3.5 text-base"
+            >
+              Build your event →
             </a>
+
+            <Link
+              href="/gallery"
+              className="rounded-full border border-white/25 bg-white/10 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+            >
+              View gallery
+            </Link>
+          </div>
+
+          <p className="mt-7 text-xs tracking-wide text-white/45">
+            Tailored Proposals · 2026 bookings open · Fully styled experiences
+          </p>
+        </div>
+      </section>
+
+      {/* =====================================================
+         EXPERIENCES
+      ===================================================== */}
+      <section className="py-20 sm:py-24">
+
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+
+          <div className="mb-12 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+
+            <div>
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.26em] text-[var(--gold-1)]">
+                Signature experiences
+              </p>
+
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                Pick the experiences your guests will remember.
+              </h2>
+            </div>
+
+
+            
+          </div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+
+            {experiences.map((exp) => {
+              const active = selectedExperiences.includes(exp.id);
+
+              return (
+                <div
+                  key={exp.id}
+                  className="group overflow-hidden rounded-[30px] border border-black/6 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.12)]"
+                >
+
+                  {/* Image */}
+                  <div
+                    className="relative overflow-hidden"
+                    style={{ aspectRatio: "16/10" }}
+                  >
+                    <Image
+                      src={exp.img}
+                      alt={exp.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+
+                    {exp.popular && (
+                      <div className="absolute left-4 top-4">
+                        <span className="rounded-full bg-[var(--gold-1)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+                          Most Booked
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="absolute bottom-4 left-4">
+                      <div className="text-sm font-bold text-white">
+                        {exp.price}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+
+                    <div className="flex items-start justify-between gap-3">
+
+                      <div>
+                        <h3 className="text-xl font-bold tracking-tight text-slate-900">
+                          {exp.title}
+                        </h3>
+
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                          {exp.desc}
+                        </p>
+                      </div>
+
+                      <span className="rounded-full border border-black/8 bg-slate-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                        {exp.tag}
+                      </span>
+                    </div>
+
+                    {/* CTA */}
+                    <button
+                      onClick={() => toggleExperience(exp.id)}
+                      className={`mt-6 w-full rounded-2xl px-5 py-3 text-sm font-semibold transition-all duration-200 ${
+                        active
+                          ? "bg-[var(--gold-1)] text-white shadow-[0_8px_25px_rgba(200,169,74,0.3)]"
+                          : "bg-slate-900 text-white hover:bg-black"
+                      }`}
+                    >
+                      {active ? "✓ Added to enquiry" : "Add to enquiry"}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ===================================================== */}
-      {/* GALLERY PREVIEW                                        */}
-      {/* ===================================================== */}
-      <section
-        id="gallery"
-        className="relative overflow-hidden border-y border-black/5 bg-gradient-to-b from-white/60 to-[rgba(200,169,74,0.08)] py-14 sm:py-16"
-      >
-        <div className="pointer-events-none absolute -top-28 right-0 h-[520px] w-[520px] rounded-full bg-[var(--glow)] blur-[170px] opacity-80" />
+{/* =====================================================
+   SMART BUILDER
+===================================================== */}
+<section
+  id="build"
+  className="relative overflow-hidden bg-[linear-gradient(to_bottom,#faf8f2,#f5f1e8)] py-20 sm:py-24"
+>
+  {/* Warm luxury glow */}
+  <div
+    className="pointer-events-none absolute inset-0 opacity-60"
+    style={{
+      backgroundImage:
+        "radial-gradient(circle at 10% 40%, rgba(200,169,74,0.12), transparent 40%), radial-gradient(circle at 90% 10%, rgba(200,169,74,0.10), transparent 35%)",
+    }}
+  />
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl font-semibold text-slate-900 sm:text-3xl">
-              Gallery preview
-            </h2>
-            <p className="mt-2 text-sm text-slate-700 sm:text-base">
-              A small snapshot of recent dessert stations, décor builds and photo
-              experiences. Explore the full gallery for more event examples.
+  <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+
+    {/* Heading */}
+    <div className="mb-12 text-center">
+
+      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--gold-1)]">
+        Build your event
+      </p>
+
+      <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+        Choose your date.
+        <br />
+        We’ll handle the experience.
+      </h2>
+
+      <p className="mx-auto mt-4 max-w-xl text-slate-600">
+        Select your preferred date, estimated guests and favourite
+        experiences — then send everything directly to WhatsApp in one tap.
+      </p>
+    </div>
+
+    <div className="grid gap-6 lg:grid-cols-[1fr_0.85fr]">
+
+{/* =====================================================
+    LEFT SIDE
+===================================================== */}
+<div className="rounded-[32px] border border-black/6 bg-white/85 p-6 shadow-[0_12px_40px_rgba(0,0,0,0.06)] backdrop-blur-xl sm:p-8">
+
+  {/* Event Type */}
+  <div>
+    <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+      Event type
+    </label>
+
+    <div className="relative mt-2">
+      <select
+        value={eventType}
+        onChange={(e) => setEventType(e.target.value)}
+        className="w-full appearance-none rounded-2xl border border-black/8 bg-white px-4 py-3 text-sm font-medium text-slate-900 focus:border-[var(--gold-1)] focus:outline-none"
+      >
+        <option value="">Select event type</option>
+        <option value="Wedding">Wedding</option>
+        <option value="Birthday">Birthday</option>
+        <option value="Corporate Event">Corporate Event</option>
+        <option value="Prom">Prom</option>
+        <option value="Private Party">Private Party</option>
+        <option value="Baby Shower">Baby Shower</option>
+        <option value="Engagement">Engagement</option>
+        <option value="Mehndi">Mehndi</option>
+        <option value="Anniversary">Anniversary</option>
+        <option value="Graduation">Graduation</option>
+        <option value="Festival">Festival</option>
+        <option value="Launch Event">Launch Event</option>
+        <option value="Other">Other</option>
+      </select>
+
+      {/* Chevron */}
+      <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
+        <svg
+          className="h-4 w-4"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M5 7.5L10 12.5L15 7.5"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  {/* Date */}
+  <div className="mt-8">
+    <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+      Event date
+    </label>
+
+    <input
+      type="date"
+      value={selectedDate}
+      min={today.toISOString().split("T")[0]}
+      onChange={(e) => setSelectedDate(e.target.value)}
+      className="mt-2 w-full rounded-2xl border border-black/8 bg-white px-4 py-3 text-sm text-slate-900 focus:border-[var(--gold-1)] focus:outline-none"
+    />
+  </div>
+
+  {/* Guests */}
+  <div className="mt-8">
+
+    <div className="mb-4 flex items-center justify-between">
+      <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+        Estimated guests
+      </label>
+
+      <span className="text-sm font-bold text-[var(--gold-1)]">
+        {guests === 500 ? "500+" : `${guests}+`} guests
+      </span>
+    </div>
+
+    <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+
+      {[
+        50,
+        100,
+        150,
+        200,
+        300,
+        500,
+      ].map((count) => {
+        const active = guests === count;
+
+        return (
+          <button
+            key={count}
+            type="button"
+            onClick={() => setGuests(count)}
+            className={`
+              rounded-2xl border px-4 py-4 text-sm font-semibold transition-all duration-200
+              ${
+                active
+                  ? "border-[rgba(200,169,74,0.35)] bg-[rgba(200,169,74,0.10)] text-[var(--gold-1)] shadow-[0_6px_20px_rgba(200,169,74,0.12)]"
+                  : "border-black/8 bg-white text-slate-700 hover:border-[rgba(200,169,74,0.2)] hover:text-slate-900"
+              }
+            `}
+          >
+            {count === 500 ? "500+" : count}
+          </button>
+        );
+      })}
+    </div>
+  </div>
+
+  {/* Selected Experiences */}
+  <div className="mt-10">
+
+    <div className="mb-4 flex items-center justify-between">
+      <h3 className="text-sm font-semibold text-slate-900">
+        Selected experiences
+      </h3>
+
+      <span className="rounded-full bg-[rgba(200,169,74,0.12)] px-3 py-1 text-xs font-bold text-[var(--gold-1)]">
+        {selectedExperiences.length} selected
+      </span>
+    </div>
+
+    <div className="flex flex-wrap gap-2">
+
+      {selectedExperiences.length > 0 ? (
+        selectedExperiences.map((id) => {
+          const item = experiences.find((e) => e.id === id);
+
+          if (!item) return null;
+
+          return (
+            <div
+              key={id}
+              className="rounded-full border border-[rgba(200,169,74,0.18)] bg-[rgba(200,169,74,0.08)] px-4 py-2 text-xs font-semibold text-[var(--gold-1)]"
+            >
+              {item.title}
+            </div>
+          );
+        })
+      ) : (
+        <div className="rounded-2xl border border-dashed border-black/10 bg-[rgba(0,0,0,0.02)] px-5 py-4 text-sm text-slate-500">
+          Select experiences above to build your enquiry.
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
+ {/* =====================================================
+    RIGHT SIDE
+===================================================== */}
+<div className="rounded-[32px] border border-[rgba(200,169,74,0.18)] bg-[linear-gradient(to_bottom,#fffdf8,#f8f4ea)] p-6 shadow-[0_12px_40px_rgba(0,0,0,0.06)] sm:p-8">
+
+  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--gold-1)]">
+    Your luxury enquiry
+  </p>
+
+  <h3 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
+    Ready to book?
+  </h3>
+
+  <p className="mt-3 text-slate-600">
+    Your enquiry opens directly in WhatsApp with all your selected details pre-filled.
+  </p>
+
+  {/* Summary */}
+  <div className="mt-8 space-y-4 rounded-3xl border border-black/6 bg-white/70 p-5">
+
+    <SummaryRow
+      light
+      label="Event"
+      value={eventType || "Not selected"}
+    />
+
+    <SummaryRow
+      light
+      label="Date"
+      value={selectedDate || "Not selected"}
+    />
+
+    <SummaryRow
+      light
+      label="Guests"
+      value={guests === 500 ? "500+" : `${guests}+`}
+    />
+
+    <SummaryRow
+      light
+      label="Experiences"
+      value={
+        selectedExperiences.length > 0
+          ? `${selectedExperiences.length} selected`
+          : "None selected"
+      }
+    />
+  </div>
+
+  {/* WhatsApp CTA */}
+  <a
+    href={enquiryUrl}
+    target="_blank"
+    rel="noreferrer"
+    className="mt-8 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-6 py-4 text-base font-bold text-white shadow-[0_8px_30px_rgba(37,211,102,0.22)] transition hover:scale-[1.01]"
+  >
+    <svg
+      className="h-5 w-5"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.852L.057 23.428c-.073.31.198.594.512.533l5.701-1.495A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.817 9.817 0 01-5.003-1.368l-.36-.213-3.724.977.993-3.63-.235-.374A9.817 9.817 0 012.182 12C2.182 6.58 6.58 2.182 12 2.182S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/>
+    </svg>
+
+    Send enquiry on WhatsApp
+  </a>
+
+  {/* Trust badges */}
+  <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+
+    <div className="rounded-full border border-black/6 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-600">
+      Tailored Packages
+    </div>
+
+    <div className="rounded-full border border-black/6 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-600">
+      No account needed
+    </div>
+
+    <div className="rounded-full border border-black/6 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-600">
+      Luxury event specialists
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</section>
+
+      {/* =====================================================
+         CATEGORIES
+      ===================================================== */}
+      <section className="py-20 sm:py-24">
+
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+
+          <div className="mb-10">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--gold-1)]">
+              Event categories
             </p>
+
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Tailored for every type of event.
+            </h2>
           </div>
 
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {galleryItems.map((item) => (
-              <GalleryCard
-                key={item.src}
-                src={item.src}
-                title={item.title}
-                tag={item.tag}
-              />
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+
+            {categories.map((cat) => (
+              <Link
+                key={cat.title}
+                href={cat.href}
+                className="group overflow-hidden rounded-[30px] border border-black/6 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(0,0,0,0.12)]"
+              >
+
+                <div
+                  className="relative overflow-hidden"
+                  style={{ aspectRatio: "4/5" }}
+                >
+                  <Image
+                    src={cat.img}
+                    alt={cat.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="25vw"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+
+                  <div className="absolute bottom-0 p-6">
+                    <h3 className="text-2xl font-bold tracking-tight text-white">
+                      {cat.title}
+                    </h3>
+
+                    <p className="mt-2 text-sm leading-relaxed text-white/65">
+                      {cat.desc}
+                    </p>
+
+                    <div className="mt-5 text-sm font-semibold text-[rgba(242,210,100,0.95)] opacity-0 transition-all duration-300 group-hover:opacity-100">
+                      Explore →
+                    </div>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/gallery" className="btn-ghost">
-              View full gallery
-            </Link>
-            <a href="#enquiry" className="btn-gold">
-              Send an enquiry
-            </a>
-          </div>
         </div>
       </section>
 
-      {/* ===================================================== */}
-      {/* FINAL CTA                                               */}
-      {/* ===================================================== */}
-      <section className="py-14 sm:py-16">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div>
-            <h2 className="text-2xl font-semibold text-slate-900 sm:text-3xl">
-              Tell us your brief — we’ll build the proposal
-            </h2>
+      {/* =====================================================
+         GALLERY
+      ===================================================== */}
+      <section className="bg-slate-950 py-20 sm:py-24">
 
-            <p className="mt-3 max-w-xl text-sm text-slate-700 sm:text-base">
-              Share your date, city, guest count and requirements. We’ll confirm
-              availability and come back with a tailored quote aligned to your goals.
-            </p>
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <a href="#enquiry" className="btn-gold">
-                Message us on WhatsApp
-              </a>
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 
-              <Link href="/contact" className="btn-ghost">
-                Contact page
-              </Link>
-            </div>
-
-            <p className="mt-4 text-xs text-slate-600">
-              Tip: Event dates lock early — secure your preferred slot ahead of peak season.
-            </p>
-          </div>
-
-          <div className="card-lux p-6 sm:p-7">
-            <div className="flex items-center justify-between gap-3">
-              <div className="text-sm font-semibold text-slate-900">
-                What you can expect
-              </div>
-              <span className="pill">Premium</span>
-            </div>
-
-            <div className="mt-4 grid gap-3">
-              <FeatureRow
-                title="Single point of contact"
-                desc="We coordinate the moving parts so your event stays calm."
-              />
-              <FeatureRow
-                title="Polished execution"
-                desc="Professional team, clean setup, tidy pack-down."
-              />
-              <FeatureRow
-                title="Cohesive design"
-                desc="Décor, food and stations aligned to one aesthetic."
-              />
-              <FeatureRow
-                title="Corporate-ready"
-                desc="Ideal for activations, launches, team events and VIP hosting."
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================== */}
-      {/* FOOTER                                                  */}
-      {/* ===================================================== */}
-      <footer className="border-t border-black/5 bg-white/60">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-3 sm:px-6 lg:px-8">
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-2xl border border-black/10 bg-white/80">
-                <Image
-                  src="/brand/elegance-logo.png"
-                  alt="Elegance Occasion"
-                  width={40}
-                  height={40}
-                  className="h-8 w-8 object-contain"
-                />
-              </div>
-              <div className="leading-tight">
-                <div className="font-semibold text-slate-900">Elegance Occasion</div>
-                <div className="text-xs text-slate-600">Our Elegance, Your Occasion</div>
-              </div>
-            </div>
-            <p className="mt-3 max-w-sm text-sm text-slate-700">
-              Luxury event design, décor, catering and interactive stations across the UK.
-            </p>
-          </div>
-
-          <div>
-            <div className="font-semibold text-slate-900">Explore</div>
-            <ul className="mt-3 space-y-2 text-sm text-slate-700">
-              <li>
-                <Link className="hover:text-slate-900" href="/services">
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-slate-900" href="/gallery">
-                  Gallery
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-slate-900" href="/corporate">
-                  Corporate
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-slate-900" href="/weddings">
-                  Weddings
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-slate-900" href="/contact">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div className="font-semibold text-slate-900">Contact</div>
-            <div className="mt-3 space-y-2 text-sm text-slate-700">
-              <a
-                className="block hover:text-slate-900"
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                WhatsApp: +44 7932 802236
-              </a>
-              <a className="block hover:text-slate-900" href="tel:+447932802236">
-                Call: +44 7467 578056
-              </a>
-              <a className="block hover:text-slate-900" href={`mailto:${BUSINESS_EMAIL}`}>
-                Email: {BUSINESS_EMAIL}
-              </a>
-              <p className="text-xs text-slate-500">
-                UK-wide availability • Corporate • Weddings • Private
+            <div>
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[rgba(242,210,100,0.7)]">
+                Recent events
               </p>
+
+              <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                Crafted experiences. Real occasions.
+              </h2>
             </div>
+
+            <Link
+              href="/gallery"
+              className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/75 transition hover:bg-white/10"
+            >
+              Full gallery →
+            </Link>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-3">
+
+            {gallery.map((img) => (
+              <Link
+                key={img.src}
+                href="/gallery"
+                className="group overflow-hidden rounded-[28px]"
+              >
+
+                <div
+                  className="relative"
+                  style={{ aspectRatio: "4/3" }}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.label}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="33vw"
+                  />
+
+                  <div className="absolute inset-0 bg-black/20 transition group-hover:bg-black/10" />
+
+                  <div className="absolute bottom-5 left-5">
+                    <div className="text-lg font-bold text-white">
+                      {img.label}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
+      </section>
 
-        <div className="border-t border-black/5 py-4 text-center text-[11px] text-slate-500">
-          © {new Date().getFullYear()} Elegance Occasion. All rights reserved.
+      {/* =====================================================
+         FINAL CTA
+      ===================================================== */}
+      <section className="py-24 sm:py-32">
+
+        <div className="mx-auto max-w-4xl px-5 text-center sm:px-8">
+
+          <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--gold-1)]">
+            Let's create something unforgettable
+          </p>
+
+          <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl">
+            One team.
+            <br />
+            Every detail handled.
+          </h2>
+
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">
+            From luxury styling and interactive stations to full guest
+            experiences — Elegance Occasion delivers events that feel effortless.
+          </p>
+
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-gold px-8 py-4 text-base"
+            >
+              Get a quote on WhatsApp
+            </a>
+
+            <Link
+              href="/contact"
+              className="btn-ghost px-8 py-4 text-base"
+            >
+              Contact page
+            </Link>
+          </div>
         </div>
-      </footer>
+      </section>
     </div>
   );
+
+
 }
 
 /* =========================================================
-   SUPPORTING COMPONENTS
+   SUMMARY ROW
 ========================================================= */
-
-const StickyMiniNav = React.memo(function StickyMiniNav() {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > 260);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <div
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
-        show ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-      } border-b border-black/5 bg-white/80 backdrop-blur-md`}
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-xl border border-black/10 bg-white">
-            <Image
-              src="/brand/elegance-logo.png"
-              alt="Elegance Occasion"
-              width={34}
-              height={34}
-              className="h-7 w-7 object-contain"
-            />
-          </div>
-          <div className="leading-tight">
-            <div className="text-xs font-semibold text-slate-900 sm:text-sm">
-              Elegance Occasion
-            </div>
-            <div className="hidden text-[11px] text-slate-600 sm:block">
-              Corporate-ready event experiences
-            </div>
-          </div>
-        </div>
-
-        <a href="#enquiry" className="btn-gold px-5 py-2 text-xs sm:text-sm">
-          Enquire
-        </a>
-      </div>
-    </div>
-  );
-});
-
-const ParallaxBG = React.memo(function ParallaxBG() {
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    let ticking = false;
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (ref.current) {
-            const offset = window.scrollY * 0.18;
-            ref.current.style.transform = `translateY(${offset}px)`;
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      className="pointer-events-none absolute inset-0 select-none opacity-[0.55]"
-      style={{
-        backgroundImage:
-          "radial-gradient(circle at 20% 15%, rgba(200,169,74,0.22), transparent 45%), radial-gradient(circle at 70% 55%, rgba(15,23,42,0.06), transparent 55%), linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,255,255,0.15))",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        willChange: "transform",
-      }}
-    />
-  );
-});
-
-const Stat = React.memo(function Stat({
+function SummaryRow({
   label,
   value,
+  light = false,
 }: {
   label: string;
   value: string;
+  light?: boolean;
 }) {
   return (
-    <div className="rounded-[22px] bg-gradient-to-b from-white/85 to-white/55 p-[1px] shadow-[0_14px_40px_rgba(15,23,42,0.08)]">
-      <div className="relative rounded-[21px] border border-black/5 bg-white/70 px-4 py-3 text-center backdrop-blur">
-        {/* top hairline */}
-        <div className="pointer-events-none absolute left-6 right-6 top-0 h-px bg-gradient-to-r from-transparent via-[rgba(200,169,74,0.30)] to-transparent" />
-
-        <div className="text-[15px] font-semibold tracking-tight text-slate-900">
-          {value}
-        </div>
-
-        <div className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-600">
-          {label}
-        </div>
-      </div>
-    </div>
-  );
-});
-
-function HeroTile({ src, alt }: { src: string; alt: string }) {
-  return (
-    <div className="relative overflow-hidden rounded-2xl border border-black/5 bg-white/70 shadow-sm">
-      <div className="relative aspect-[4/3]">
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes="(max-width: 1024px) 33vw, 220px"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-[rgba(200,169,74,0.14)] via-transparent to-[rgba(15,23,42,0.06)]" />
-      </div>
-    </div>
-  );
-}
-
-const ServiceCard = React.memo(function ServiceCard({
-  title,
-  desc,
-  tag,
-}: {
-  title: string;
-  desc: string;
-  tag: string;
-}) {
-  return (
-    <div className="card-lux p-5">
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
-        <span className="pill whitespace-nowrap">{tag}</span>
-      </div>
-      <p className="mt-2 text-xs leading-relaxed text-slate-700">{desc}</p>
-      <div className="mt-4 flex items-center gap-2 text-[11px] text-slate-600">
-        <span className="h-1.5 w-1.5 rounded-full bg-[var(--gold-1)]" />
-        Brief-led • Styled • Fully managed
-      </div>
-    </div>
-  );
-});
-
-/* New gallery card using real images */
-function GalleryCard({
-  src,
-  title,
-  tag,
-}: {
-  src: string;
-  title: string;
-  tag: string;
-}) {
-  return (
-    <div className="group overflow-hidden rounded-2xl border border-black/5 bg-white/70 shadow-[0_10px_26px_rgba(15,23,42,0.06)]">
-      <div className="relative aspect-[4/3]">
-        <Image
-          src={src}
-          alt={title}
-          fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-80" />
-      </div>
-      <div className="flex items-center justify-between gap-2 px-3 py-3">
-        <div className="text-sm font-semibold text-slate-900 line-clamp-1">
-          {title}
-        </div>
-        <span className="rounded-full bg-slate-900/5 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600">
-          {tag}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function FeatureRow({ title, desc }: { title: string; desc: string }) {
-  return (
-    <div className="rounded-2xl border border-black/5 bg-white/70 p-4 shadow-sm">
-      <div className="text-sm font-semibold text-slate-900">{title}</div>
-      <div className="mt-1 text-xs text-slate-700">{desc}</div>
-    </div>
-  );
-}
-
-/* =========================================================
-   Gold Highlight (better visibility)
-========================================================= */
-function GoldHighlight({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="relative inline-block">
-      <span className="relative z-10">{children}</span>
-
-      {/* richer gold underline (gradient + glow) */}
+    <div className="flex items-center justify-between">
       <span
-        aria-hidden
-        className="
-          absolute left-[-0.06em] right-[-0.06em]
-          bottom-[0.12em]
-          h-[0.52em]
-          rounded-full
-          bg-gradient-to-r
-          from-[rgba(200,169,74,0.18)]
-          via-[rgba(200,169,74,0.40)]
-          to-[rgba(242,223,154,0.22)]
-          shadow-[0_10px_30px_rgba(200,169,74,0.18)]
-          ring-1 ring-[rgba(200,169,74,0.22)]
-          blur-[0.2px]
-        "
-      />
-    </span>
-  );
-}
+        className={`text-xs ${
+          light ? "text-slate-500" : "text-white/40"
+        }`}
+      >
+        {label}
+      </span>
 
-/* =========================================================
-   Trust Chip (replaces bland trust pills)
-========================================================= */
-function TrustChip({ title, value }: { title: string; value: string }) {
-  return (
-    <div className="group rounded-3xl border border-black/5 bg-white/60 px-4 py-4 shadow-sm backdrop-blur transition hover:bg-white/75 hover:shadow-[0_14px_36px_rgba(15,23,42,0.10)]">
-      <div className="flex items-start gap-3">
-        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[var(--gold-1)] shadow-[0_0_0_7px_rgba(200,169,74,0.10)]" />
-        <div className="min-w-0">
-          <div className="text-[11px] font-semibold tracking-[0.16em] text-slate-700 uppercase">
-            {title}
-          </div>
-          <div className="mt-1 text-[13px] leading-snug text-slate-900">
-            {value}
-          </div>
-        </div>
-      </div>
+      <span
+        className={`text-sm font-semibold ${
+          light ? "text-slate-900" : "text-white"
+        }`}
+      >
+        {value}
+      </span>
     </div>
   );
 }
 
-/* =========================================================
-   Enquiry Brief Form (WhatsApp + Email, no API)
-========================================================= */
-function EnquiryBriefForm() {
-  const [name, setName] = useState("");
-  const [company, setCompany] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [eventType, setEventType] = useState("");
-  const [date, setDate] = useState("");
-  const [city, setCity] = useState("");
-  const [guests, setGuests] = useState("");
-  const [budget, setBudget] = useState("");
-  const [notes, setNotes] = useState("");
-  const [preferred, setPreferred] = useState<"WhatsApp" | "Email" | "Call">("WhatsApp");
-  const [error, setError] = useState<string | null>(null);
-
-  const message = useMemo(() => {
-    const lines = [
-      "Hi Elegance Occasion",
-      "",
-      "New enquiry / brief:",
-      `Name: ${name.trim() || "-"}`,
-      `Company: ${company.trim() || "-"}`,
-      `Email: ${email.trim() || "-"}`,
-      `Phone: ${phone.trim() || "-"}`,
-      `Event type: ${eventType.trim() || "-"}`,
-      `Date: ${date || "TBC"}`,
-      `City/Venue: ${city.trim() || "-"}`,
-      `Guests: ${guests.trim() || "-"}`,
-      `Budget (optional): ${budget.trim() || "-"}`,
-      `Preferred contact: ${preferred}`,
-      notes.trim() ? `Notes: ${notes.trim()}` : "",
-      "",
-      "Please confirm availability and share next steps. Thank you!",
-    ];
-
-    return encodeLines(lines);
-  }, [name, company, email, phone, eventType, date, city, guests, budget, preferred, notes]);
-
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
-
-  const mailtoHref = useMemo(() => {
-    const subject = encodeURIComponent("New enquiry — Elegance Occasion");
-    const body = decodeURIComponent(message); // readable mail body
-    return `mailto:${BUSINESS_EMAIL}?subject=${subject}&body=${encodeURIComponent(body)}`;
-  }, [message]);
-
-  function submitWhatsApp(e: React.FormEvent) {
-    e.preventDefault();
-
-    // minimal validation (enterprise-friendly, not annoying)
-    if (!eventType.trim()) return setError("Please tell us the event type.");
-    if (!city.trim()) return setError("Please include the city/venue.");
-    setError(null);
-
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-  }
-
-  return (
-    <form onSubmit={submitWhatsApp} className="mt-5">
-      {error && (
-        <div className="mb-4 rounded-xl border border-black/10 bg-white/70 px-4 py-3 text-sm text-slate-900">
-          {error}
-        </div>
-      )}
-
-      <div className="grid gap-3 sm:grid-cols-2">
-        {/* Essentials */}
-        <div>
-          <label className="text-xs text-slate-600">Event type *</label>
-          <input
-            className="input-dark mt-1"
-            placeholder="Corporate / Launch / Wedding / Private"
-            value={eventType}
-            onChange={(e) => setEventType(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label className="text-xs text-slate-600">Event date (or TBC)</label>
-          <input
-            className="input-dark mt-1"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
-
-        <div className="sm:col-span-2">
-          <label className="text-xs text-slate-600">City / venue *</label>
-          <input
-            className="input-dark mt-1"
-            placeholder="e.g. London (Canary Wharf) / Manchester / Birmingham"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label className="text-xs text-slate-600">Guest count</label>
-          <input
-            className="input-dark mt-1"
-            placeholder="e.g. 150"
-            value={guests}
-            onChange={(e) => setGuests(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label className="text-xs text-slate-600">Budget range (optional)</label>
-          <input
-            className="input-dark mt-1"
-            placeholder="e.g. £2,500–£7,500"
-            value={budget}
-            onChange={(e) => setBudget(e.target.value)}
-          />
-        </div>
-
-        {/* Optional details collapsible */}
-        <div className="sm:col-span-2">
-          <details className="mt-1 rounded-2xl border border-black/5 bg-white/55 px-4 py-3">
-            <summary className="cursor-pointer select-none text-sm font-semibold text-slate-900">
-              Add more details (optional)
-              <span className="ml-2 text-[color:var(--gold-1)]">+</span>
-            </summary>
-
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <div>
-                <label className="text-xs text-slate-600">Name</label>
-                <input
-                  className="input-dark mt-1"
-                  placeholder="e.g. Sara"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="text-xs text-slate-600">Company</label>
-                <input
-                  className="input-dark mt-1"
-                  placeholder="e.g. Acme Ltd"
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="text-xs text-slate-600">Email</label>
-                <input
-                  className="input-dark mt-1"
-                  placeholder="e.g. name@company.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  inputMode="email"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs text-slate-600">Phone</label>
-                <input
-                  className="input-dark mt-1"
-                  placeholder="e.g. +44 7..."
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  inputMode="tel"
-                />
-              </div>
-
-              <div className="sm:col-span-2">
-                <label className="text-xs text-slate-600">Preferred contact</label>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {(["WhatsApp", "Email", "Call"] as const).map((m) => {
-                    const active = preferred === m;
-                    return (
-                      <button
-                        key={m}
-                        type="button"
-                        onClick={() => setPreferred(m)}
-                        className={
-                          "rounded-full px-3 py-1 text-[12px] ring-1 transition " +
-                          (active
-                            ? "bg-[rgba(200,169,74,0.18)] text-slate-900 ring-[rgba(200,169,74,0.30)]"
-                            : "bg-white/70 text-slate-700 ring-black/10 hover:bg-white")
-                        }
-                      >
-                        {m}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label className="text-xs text-slate-600">Brief / notes</label>
-                <textarea
-                  className="input-dark mt-1 min-h-[110px]"
-                  placeholder="Theme/brand notes, timings, dietary requirements, must-haves..."
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                />
-              </div>
-            </div>
-          </details>
-        </div>
-      </div>
-
-      <div className="mt-5 flex flex-wrap gap-3">
-        <button type="submit" className="btn-gold">
-          Send on WhatsApp
-        </button>
-
-        <a className="btn-ghost" href={mailtoHref}>
-          Email instead
-        </a>
-      </div>
-
-      <p className="mt-3 text-[11px] text-slate-500">
-        No account needed — WhatsApp opens with a pre-written brief.
-      </p>
-    </form>
-  );
-}
