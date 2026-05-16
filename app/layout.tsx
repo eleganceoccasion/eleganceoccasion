@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 
 import Header from "@/components/nav/Header";
+import Footer from "@/components/nav/Footer";
 
 const display = Playfair_Display({
   subsets: ["latin"],
@@ -42,22 +43,23 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${display.variable} ${body.variable}`}
     >
-      <body className="antialiased bg-[var(--page-bg)] text-[var(--foreground)] relative">
-        {/* Top bar (premium, confidence-building) */}
+      <body className="relative min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] antialiased">
+        {/* Top bar */}
         <div className="border-b border-black/5 bg-white/55 backdrop-blur">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-4 text-[11px] sm:text-xs">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 text-[11px] sm:px-6 sm:text-xs lg:px-8">
             <div className="flex items-center gap-2 text-slate-700">
               <span className="inline-flex h-2 w-2 rounded-full bg-[var(--gold-1)] animate-pulse" />
               <span>UK-wide events • Weddings • Corporate • Private</span>
             </div>
 
-            <div className="hidden sm:flex items-center gap-6 text-slate-600">
+            <div className="hidden items-center gap-6 text-slate-600 sm:flex">
               <span>Tailored Proposals</span>
+
               <a
                 href="tel:+447932802236"
-                className="text-slate-900 font-semibold"
+                className="font-semibold text-slate-900 transition hover:text-[var(--gold-1)]"
               >
-                Call: +44 7467 578056
+                Call: +44 7380 809766
               </a>
             </div>
           </div>
@@ -67,7 +69,10 @@ export default function RootLayout({
         <Header />
 
         {/* Page content */}
-        <main>{children}</main>
+        <main className="min-h-[70vh]">{children}</main>
+
+        {/* Global footer */}
+        <Footer />
       </body>
     </html>
   );
