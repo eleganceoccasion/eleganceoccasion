@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 import Header from "@/components/nav/Header";
@@ -44,6 +45,23 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable}`}
     >
       <body className="relative min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] antialiased">
+
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-3E9W643KXM"
+          strategy="afterInteractive"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-3E9W643KXM');
+          `}
+        </Script>
+
         {/* Top bar */}
         <div className="border-b border-black/5 bg-white/55 backdrop-blur">
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 text-[11px] sm:px-6 sm:text-xs lg:px-8">
