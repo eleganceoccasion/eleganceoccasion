@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Elegance Occasion
 
-## Getting Started
+Standalone React + Vite website for Vercel. Enquiries open WhatsApp or email;
+there is no account system, payment processing or backend submission.
 
-First, run the development server:
+## Local development
 
-```bash
+Use Node.js 24 and npm.
+
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm run preview
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+No Base44 credentials or environment variables are needed. The exported visual
+style, services, prices, enquiry selections and contact numbers are retained.
+Original media is in `public/gallery`, `public/brand` and `public/videos`.
+Additional images selected in the Base44 design are copied into `public/media`.
+Older original media and legacy video paths omitted from the export are retained.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Deploy the repository root, not a `redesign` subfolder. `vercel.json` sets:
 
-## Learn More
+- Framework: Vite
+- Install: `npm ci`
+- Build: `npm run build`
+- Output: `dist`
+- Node.js: 24.x (package.json)
 
-To learn more about Next.js, take a look at the following resources:
+Create a preview from `migration/base44-to-vercel` first. If the existing Vercel
+project retains Next.js settings or a different root directory, update those
+settings to the values above. Keep the production branch as main until reviewed.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Check the homepage, service links and refreshes, gallery images/videos, mobile
+menu, enquiry selection persistence, WhatsApp destination and telephone link.
+`/build-info.json` identifies the deployed Git commit when Vercel exposes
+VERCEL_GIT_COMMIT_SHA; local builds use `eo-vercel-migration-local`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+After preview approval, merge to main and verify the production Vercel deployment.
+Only then update the apex and www DNS to the exact records Vercel supplies.
+Leave all email DNS records unchanged. Previous website code remains in Git history.
 
-## Deploy on Vercel
+SPA routing follows https://vercel.com/docs/frameworks/frontend/vite with media
+paths excluded so missing media returns a real 404 instead of the app HTML.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Checks
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sh
+npm run lint
+npm run typecheck
+npm run build
+```
