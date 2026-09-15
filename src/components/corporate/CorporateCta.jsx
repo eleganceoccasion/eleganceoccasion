@@ -8,7 +8,7 @@ import Reveal from "@/components/site/Reveal";
 // Decisive ending — atmospheric image with a warm-charcoal scrim, one large
 // serif line and a direct briefing route.
 const CTA_IMAGE =
-  "https://media.base44.com/images/public/6aa878f8501ddfcd2eda6aa4/de3be8a60_generated_image.png";
+  "/media/de3be8a60_generated_image.jpg";
 
 export default function CorporateCta() {
   return (

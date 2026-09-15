@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import EnquiryButton from "./EnquiryButton";
 
 // Image-led service card for the directory. Larger image, minimal info

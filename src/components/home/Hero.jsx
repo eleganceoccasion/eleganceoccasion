@@ -7,7 +7,7 @@ import { Image } from "@/components/ui/image";
 // and an overlaid serif headline. The signature experiences selector sits
 // directly beneath this hero on the homepage.
 const HERO_IMAGE =
-  "https://media.base44.com/images/public/6aa878f8501ddfcd2eda6aa4/e8d09e73d_generated_image.png";
+  "/media/e8d09e73d_generated_image.jpg";
 
 export default function Hero() {
   return (

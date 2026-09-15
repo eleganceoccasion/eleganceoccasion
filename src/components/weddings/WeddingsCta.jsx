@@ -8,7 +8,7 @@ import Reveal from "@/components/site/Reveal";
 // Decisive ending — a generated atmospheric image with a warm-charcoal scrim
 // gives this section clear distinction from the light moments section above.
 const CTA_IMAGE =
-  "https://media.base44.com/images/public/6aa878f8501ddfcd2eda6aa4/de3be8a60_generated_image.png";
+  "/media/de3be8a60_generated_image.jpg";
 
 export default function WeddingsCta() {
   return (

@@ -538,7 +538,7 @@ export const SERVICES = [
     homepageCategory: null,
     price: null,
     mostBooked: false,
-    image: "https://media.base44.com/images/public/6aa878f8501ddfcd2eda6aa4/a52936945_generated_image.png",
+    image: "/media/a52936945_generated_image.jpg",
     tagline: "A fairytale lighting transformation — soft, romantic, and designed to make the room feel magical.",
     intro:
       "Soft ambient lighting that transforms the entire room — designed to enhance florals, stages and tablescapes with warm, flattering light for photography and film.",
@@ -607,7 +607,7 @@ export const SERVICES = [
     homepageCategory: null,
     price: null,
     mostBooked: false,
-    image: "https://media.base44.com/images/public/6aa878f8501ddfcd2eda6aa4/81412b61e_generated_image.png",
+    image: "/media/81412b61e_generated_image.jpg",
     tagline: "Statement dance floor and staging builds designed for impact and photography.",
     intro:
       "Statement dance floor and staging builds designed for impact and photography — layered lighting and staging that turn the focal moment of the evening into a centrepiece.",
@@ -653,7 +653,7 @@ export const SERVICES = [
     homepageCategory: null,
     price: null,
     mostBooked: false,
-    image: "https://media.base44.com/images/public/6aa878f8501ddfcd2eda6aa4/8b6858c66_generated_image.png",
+    image: "/media/8b6858c66_generated_image.jpg",
     tagline: "Layered table styling that elevates the whole room.",
     intro:
       "Layered table styling — linens, centrepieces, candles and place settings — brought together so every table reads as part of one considered design, from corporate dinners to luxury weddings.",

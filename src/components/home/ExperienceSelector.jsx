@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { HOMEPAGE_CARDS } from "@/data/services";
 import ExperienceCard from "@/components/site/ExperienceCard";
 import Reveal from "@/components/site/Reveal";

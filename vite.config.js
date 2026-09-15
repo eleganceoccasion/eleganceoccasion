@@ -1,19 +1,17 @@
-import base44 from "@base44/vite-plugin"
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import { fileURLToPath } from 'node:url';
 
-// https://vite.dev/config/
+const buildId = process.env.VERCEL_GIT_COMMIT_SHA || 'eo-vercel-migration-local';
+
 export default defineConfig({
-  plugins: [
-    base44({
-      // Support for legacy code that imports the base44 SDK with @/integrations, @/entities, etc.
-      // can be removed if the code has been updated to use the new SDK imports from @base44/sdk
-      legacySDKImports: process.env.BASE44_LEGACY_SDK_IMPORTS === 'true',
-      hmrNotifier: true,
-      navigationNotifier: true,
-      analyticsTracker: true,
-      visualEditAgent: true
-    }),
-    react(),
-  ]
+  plugins: [react(), {
+    name: 'deployment-identifier',
+    transformIndexHtml: (html) => html.replace('EO_BUILD_ID', buildId),
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'build-info.json', source: JSON.stringify({ buildId }) });
+    },
+  }],
+  resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
+  define: { __EO_BUILD_ID__: JSON.stringify(buildId) },
 });

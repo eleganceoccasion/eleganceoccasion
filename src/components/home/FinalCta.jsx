@@ -8,7 +8,7 @@ import Reveal from "@/components/site/Reveal";
 // gives this section clear distinction from the light footer, with one large
 // serif line and a single enquiry action.
 const CTA_IMAGE =
-  "https://media.base44.com/images/public/6aa878f8501ddfcd2eda6aa4/de3be8a60_generated_image.png";
+  "/media/de3be8a60_generated_image.jpg";
 
 export default function FinalCta() {
   return (

@@ -5,7 +5,7 @@ import Reveal from "@/components/site/Reveal";
 // Centered editorial header over a full-bleed image — a charcoal gradient
 // scrim keeps the white type legible without flattening the photograph.
 const HERO_IMAGE =
-  "https://media.base44.com/images/public/6aa878f8501ddfcd2eda6aa4/7ffd3e6f4_generated_image.png";
+  "/media/7ffd3e6f4_generated_image.jpg";
 
 export default function ContactHero() {
   return (

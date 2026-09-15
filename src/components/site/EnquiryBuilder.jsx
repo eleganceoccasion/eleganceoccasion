@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MessageCircle, Mail, Copy, Check, X } from "lucide-react";
 import { useEnquiry } from "./EnquiryProvider";
-import { EVENT_TYPES, GUEST_PRESETS, CONTACT, buildWhatsAppUrl, buildEmailUrl } from "@/data/site";
+import { EVENT_TYPES, GUEST_PRESETS, buildWhatsAppUrl, buildEmailUrl } from "@/data/site";
 import { getServiceById } from "@/data/services";
 
 // A calm, Apple-style enquiry builder — generous whitespace, refined serif
@@ -11,7 +11,7 @@ import { getServiceById } from "@/data/services";
 //
 // `bare` renders the form + summary as a single stacked column with no
 // section wrapper, for embedding inside a split layout (e.g. Contact).
-export default function EnquiryBuilder({ id = "build", heading = "Tell us about your occasion", intro, bare = false }) {
+export default function EnquiryBuilder({ id = "build", heading = "Tell us about your occasion", intro = "", bare = false }) {
   const { selectedIds, removeService, clearServices, eventDetails, setEventDetail } = useEnquiry();
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
@@ -260,7 +260,7 @@ export default function EnquiryBuilder({ id = "build", heading = "Tell us about 
   );
 }
 
-function Field({ label, hint, children }) {
+function Field({ label, hint = "", children }) {
   return (
     <div>
       <div className="mb-2.5 flex items-center justify-between">

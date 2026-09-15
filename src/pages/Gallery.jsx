@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect } from "react";
 import { Play } from "lucide-react";
 import { GALLERY_ITEMS, GALLERY_CATEGORIES } from "@/data/gallery";
 import Lightbox from "@/components/site/Lightbox";
-import Reveal from "@/components/site/Reveal";
 
 // Gallery — the work itself is the page. Compact title, subtle filters,
 // larger images, minimal labels and deliberate portrait/landscape

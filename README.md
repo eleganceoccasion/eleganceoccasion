@@ -1,62 +1,55 @@
-# Base44 Project
+# Elegance Occasion
 
-Use this repository to run and edit the app locally, then publish changes back through Base44.
+Standalone React + Vite website for Vercel. Enquiries open WhatsApp or email;
+there is no account system, payment processing or backend submission.
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+## Local development
 
-## Prerequisites
+Use Node.js 24 and npm.
 
-1. Clone the repository using the project's Git URL.
-2. Navigate to the project directory.
-3. Install dependencies: `npm install`.
-4. Install the Base44 CLI: `npm install -g base44@latest`.
-5. Install [Deno](https://docs.deno.com/runtime/getting_started/installation/) — the local Base44 backend runs on it.
-
-Run `base44 --help` (or see the [CLI reference](https://docs.base44.com/developers/references/cli/commands/introduction)) for the full command surface.
-
-## Run Locally
-
-Three commands, from the project root:
-
-```bash
-base44 login   # one-time per machine
-base44 link    # one-time per clone
-base44 dev     # local backend + frontend together
+```sh
+npm ci
+npm run dev
+npm run build
+npm run preview
 ```
 
-Open the frontend URL that `base44 dev` prints (typically `http://localhost:5173`).
+No Base44 credentials or environment variables are needed. The exported visual
+style, services, prices, enquiry selections and contact numbers are retained.
+Original media is in `public/gallery`, `public/brand` and `public/videos`.
+Additional images selected in the Base44 design are copied into `public/media`.
+Older original media and legacy video paths omitted from the export are retained.
 
-Notes:
+## Vercel
 
-- **Every fresh clone needs `base44 link`.** It writes `base44/.app.jsonc` (the app-id pointer), which is deliberately gitignored. Your app id is in the Builder URL (`app.base44.com/apps/<id>/...`); `base44 link --help` shows the non-interactive flags.
-- **`base44 dev` runs the frontend for you** (via `site.serveCommand` in this repo's `base44/config.jsonc`) — never run `npm run dev` yourself: alone it serves a UI with no backend behind it (`[base44] Proxy not enabled`, every `/api` call fails), and alongside `base44 dev` the second Vite silently takes the next port and you end up looking at the wrong one.
-- **The app must be published at least once for the UI to load under `base44 dev`.** The frontend boots by fetching app settings from the hosted app; before the first publish that fails and every page redirects to login. The local API works regardless.
-- Entities, functions, and auth run locally — entity data is **in-memory only**, wiped when `base44 dev` restarts. Everything else (Core integrations, OAuth login) is forwarded to your deployed app. Full breakdown: [Local development overview](https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview).
+Deploy the repository root, not a `redesign` subfolder. `vercel.json` sets:
 
-## Frontend Only, Hosted Backend
+- Framework: Vite
+- Install: `npm ci`
+- Build: `npm run build`
+- Output: `dist`
+- Node.js: 24.x (package.json)
 
-To work on just the frontend against your app's live hosted backend:
+Create a preview from `migration/base44-to-vercel` first. If the existing Vercel
+project retains Next.js settings or a different root directory, update those
+settings to the values above. Keep the production branch as main until reviewed.
 
-```bash
-base44 dev --remote
+Check the homepage, service links and refreshes, gallery images/videos, mobile
+menu, enquiry selection persistence, WhatsApp destination and telephone link.
+`/build-info.json` identifies the deployed Git commit when Vercel exposes
+VERCEL_GIT_COMMIT_SHA; local builds use `eo-vercel-migration-local`.
+
+After preview approval, merge to main and verify the production Vercel deployment.
+Only then update the apex and www DNS to the exact records Vercel supplies.
+Leave all email DNS records unchanged. Previous website code remains in Git history.
+
+SPA routing follows https://vercel.com/docs/frameworks/frontend/vite with media
+paths excluded so missing media returns a real 404 instead of the app HTML.
+
+## Checks
+
+```sh
+npm run lint
+npm run typecheck
+npm run build
 ```
-
-⚠️ In this mode writes go to your app's **production data** — plain `base44 dev` keeps everything local.
-
-## Publish Your Changes
-
-After pushing your changes to git, open the Base44 dashboard and publish the app:
-
-```bash
-base44 dashboard open
-```
-
-This repo syncs to Base44 through git, so publish from the dashboard rather than `base44 deploy` — a CLI deploy ships your local tree directly, bypassing the sync, and the deployed state silently diverges from the repo.
-
-## Docs & Support
-
-GitHub integration: [https://docs.base44.com/developers/app-code/local-development/github](https://docs.base44.com/developers/app-code/local-development/github)
-
-Local development: [https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview](https://docs.base44.com/developers/backend/overview/local-dev/local-development-overview)
-
-Support: [https://app.base44.com/support](https://app.base44.com/support)
